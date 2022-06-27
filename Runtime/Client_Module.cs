@@ -48,7 +48,7 @@ namespace MMA.Client
         }
 
         private void OnProgress((string id, int current, int lenght) value){
-            Middleware<(string id, int current, int lenght)>Invoke_Publish(Key.OnProgress, value);
+            Middleware<(string id, int current, int lenght)>.Invoke_Publish(Key.OnProgress, value);
         }
         #endregion
         #region Request ( Coroutines )
