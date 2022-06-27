@@ -13,6 +13,7 @@ namespace MMA.Client
         public static string RunAction   = "Client_RunAction";
         public static string OnCompleted   = "Client_OnCompleted";
         public static string OnFail   = "Client_OnFail";
+        public static string OnProgress   = "Client_OnProgress";
     }
     public static class Import
     {
@@ -45,14 +46,20 @@ namespace MMA.Client
             dic_sorted.Add(value.priority, (value.id, value.action));
             Debug.Log($"Added: {value.id} | Client Actions: {dic_sorted.Count}");
         }
+
+        private void OnProgress((string id, int current, int lenght) value){
+            Middleware<(string id, int current, int lenght)>Invoke_Publish(Key.OnProgress, value);
+        }
         #endregion
         #region Request ( Coroutines )
         // Contenedor de toda la Esperas de corutinas del Client
         private IEnumerator RunActions()
         {
+            int intCount = 0;
             foreach (KeyValuePair<int, (string id, IEnumerator action)> pair in dic_sorted)
             {
                 Debug.Log($"[{pair.Key}]: Start Action => {pair.Value.id}");
+                OnProgress((pair.Value.id, intCount, dic_sorted.Count));
                 yield return pair.Value.action;
             }
         }
