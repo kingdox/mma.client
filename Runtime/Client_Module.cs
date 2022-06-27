@@ -34,7 +34,7 @@ namespace MMA.Client
             Middleware<(string id, int priority, IEnumerator action)>.Subscribe_Publish(condition, Key.AddAction, AddAction);
 
             // RunAction
-            Middleware.Subscribe_Request(condition, Key.RunAction, RunActions);
+            Middleware.Subscribe_IEnumerator(condition, Key.RunAction, RunActions);
         }
         #endregion
         #region Methods
